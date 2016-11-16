@@ -1,0 +1,2 @@
+keys:
+text, age, body, diet, drinks, drugs, education, income, orientation, pets, religion, sex, smokes
