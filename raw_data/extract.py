@@ -3,7 +3,11 @@ import sys
 import re
 import string
 import cPickle as pickle
-
+from nltk.stem import WordNetLemmatizer
+from nltk.tokenize import TreebankWordTokenizer
+from nltk.corpus import stopwords
+wnl = WordNetLemmatizer()
+tokenizer = TreebankWordTokenizer()
 #open csv as list of lists
 def open_csv():
 	with open('profiles.csv', 'rU') as f:
@@ -40,7 +44,9 @@ def get_index_text(data, index):
 def get_all_text(data):
 	retvar = []
 	for i in xrange(len(data)):
-		retvar.append(get_index_text(data, i))
+		print(str(i)+ '\r')
+		text = get_index_text(data, i)
+		retvar.append([wnl.lemmatize(word) for word in tokenizer.tokenize(text) if word not in stopwords.words('english')])
 	return retvar
 
 #gets a column from the data
