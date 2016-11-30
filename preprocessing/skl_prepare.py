@@ -1,6 +1,7 @@
 import numpy as np
 from sklearn.metrics import confusion_matrix
 from collections import Counter
+import copy
 
 import cPickle as pickle
 initial_data = pickle.load(open('columns.pickle', 'rb'))
@@ -16,6 +17,13 @@ from sklearn.feature_extraction.text import TfidfTransformer
 tfidf_transformer = TfidfTransformer()
 X_train_tfidf = tfidf_transformer.fit_transform(X_train_counts)
 print "Tfidf shape", X_train_tfidf.shape
+
+from sklearn.decomposition import LatentDirichletAllocation
+lda_transformer = LatentDirichletAllocation(n_topics = 300)
+X_train_lda = lda_transformer.fit_transform(X_train_tfidf)
+pickle.dump(X_train_lda, open('x_lda.pickle', 'wb'))
+print "LDA shape", X_train_lda.shape
+
 
 from sklearn.linear_model import SGDClassifier, SGDRegressor
 clf = SGDClassifier(loss='hinge', penalty='l2', n_iter=5, random_state=88)
@@ -40,3 +48,19 @@ def regress(s):
 	reg.fit(X_train, y_train)
 	print reg.score(X_test, y_test)
 	return reg
+
+def fix_education(s):
+	if 'college' in s and 'dropped' in s:
+		return 'highschool'
+	elif 'high' in s:
+		return 'highschool'
+	elif 'space' in s or s=='':
+		return "highschool"
+	elif 'college' in s:
+		return 'college'
+	elif 'dropped' in s:
+		return 'college'
+	elif 'law' in s or 'med' in s or 'masters' in s or 'ph.d' in s:
+		return 'grad school'
+	else:
+		return s
