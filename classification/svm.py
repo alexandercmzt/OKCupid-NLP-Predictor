@@ -5,7 +5,7 @@ import copy
 
 #import the data
 import cPickle as pickle
-initial_data = pickle.load(open('columns.pickle', 'rb'))
+initial_data = pickle.load(open('../data/columns.pickle', 'rb'))
 texts = [' '.join(x) for x in initial_data['text']]
 
 #model as unigram
