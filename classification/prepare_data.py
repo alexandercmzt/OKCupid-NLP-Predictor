@@ -5,6 +5,7 @@ from collections import defaultdict
 import logging
 logging.basicConfig(format='%(asctime)s : %(levelname)s : %(message)s', level=logging.INFO)
 
+#dead script, mostly used in ipython, disregard.
 
 initial_data = pickle.load(open('columns.pickle', 'rb'))
 texts = initial_data['text']

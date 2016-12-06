@@ -10,6 +10,10 @@ from nltk.corpus import stopwords
 wnl = WordNetLemmatizer()
 tokenizer = TreebankWordTokenizer()
 from collections import Counter
+
+#this script cleans up the raw text data and creates a dictionary with the text for each
+#user and the desired labels. dumps massive file to disk (be warned)
+
 #open csv as list of lists
 def open_csv():
 	with open('profiles.csv', 'rU') as f:
@@ -59,6 +63,7 @@ def get_column(data, i):
 		retvar.append(data[j][i])
 	return retvar
 
+#gets the fscore for all users (described in paper)
 def get_fscore(data):
 	retvar = []
 	for i in xrange(len(data)):
@@ -71,6 +76,7 @@ def get_fscore(data):
 		retvar.append(0.5*(pos - neg + 100))
 	return retvar
 
+#gets the gender_preferential for all users (described in paper)
 def gender_preferential(data):
 	retvar=[]
 	for i in xrange(len(data)):
@@ -95,7 +101,7 @@ def gender_preferential(data):
 			retvar.append(vec)
 	return retvar
 
-
+#gets the factor analysis for all users (described in paper)
 def factor_analysis(data):
 	retvar=[]
 	for i in xrange(len(data)):
@@ -126,7 +132,6 @@ def factor_analysis(data):
 		else:
 			retvar.append(vec)
 	return retvar
-
 
 
 raw_data = open_csv()

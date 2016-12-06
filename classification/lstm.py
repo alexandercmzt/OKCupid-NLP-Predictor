@@ -11,8 +11,6 @@ from keras.preprocessing import sequence
 from keras.callbacks import EarlyStopping
 import cPickle as pickle
 from collections import Counter
-# fix random seed for reproducibility
-numpy.random.seed(7)
 
 #load y
 y = pickle.load(open('../data/columns.pickle'))['sex']
@@ -56,7 +54,7 @@ X = waf
 max_review_length = 400
 X = sequence.pad_sequences(X, maxlen=max_review_length)
 
-
+#create model architecture
 embedding_vecor_length = 32
 nodes = 512
 model = Sequential()
@@ -70,6 +68,7 @@ model.add(Dense(1, activation='sigmoid'))
 early_stopping = EarlyStopping(monitor='val_loss', patience=5)
 model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
 
+#begin training
 print(model.summary())
 print "topwords", top_words
 print "maxrevlen", max_review_length
